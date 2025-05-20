@@ -1,4 +1,12 @@
 function deleteFacebookActivityLog_SearchHistory(index = 0) {
+  // Var to store the different values for innerText
+  var innerTextValues = [
+    "Move to trash",
+    "Delete",
+    "Remove reaction",
+    "Unlike",
+  ]
+
   var items = document.querySelectorAll('[aria-label="Action options"] > i');
   var item = items[index]
 
@@ -12,21 +20,22 @@ function deleteFacebookActivityLog_SearchHistory(index = 0) {
       var canDelete = false
       for (let i=0; i < opts.length; i += 1) {
           var opt = opts[i];
-          if (opt.innerText === "Move to trash" || opt.innerText === "Delete" || opt.innerText === "Remove reaction" || opt.innerText === "Unlike") {
-          var ariaLabel = opt.innerText === "Move to trash" ? "Move to Trash" : "Delete";
-          canDelete = true;
-          opt.click();
-          setTimeout(() => {
-              var confirm = document.querySelector(`[aria-label="${ariaLabel}"][tabindex="0"]`);
-              if (confirm) {
-              confirm.click();
-              }
+          // If the innerText is one of the values in the array, then we can delete
+          if (innerTextValues.includes(opt.innerText)) {
+              var ariaLabel = opt.innerText === "Move to trash" ? "Move to Trash" : "Delete";
+              canDelete = true;
+              opt.click();
               setTimeout(() => {
-                deleteFacebookActivityLog_SearchHistory(index);
-              console.log("Activity deleted");
-              }, 2000);
-          }, 250);
-          break;
+                  var confirm = document.querySelector(`[aria-label="${ariaLabel}"][tabindex="0"]`);
+                  if (confirm) {
+                  confirm.click();
+                  }
+                  setTimeout(() => {
+                    deleteFacebookActivityLog_SearchHistory(index);
+                  console.log("Activity deleted");
+                  }, 2000);
+              }, 250);
+              break;
           }
       }
       if (!canDelete) {
