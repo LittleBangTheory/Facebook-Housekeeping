@@ -12,7 +12,7 @@ function deleteFacebookActivityLog_SearchHistory(index = 0) {
       var canDelete = false
       for (let i=0; i < opts.length; i += 1) {
           var opt = opts[i];
-          if (opt.innerText === "Move to trash" || opt.innerText === "Delete") {
+          if (opt.innerText === "Move to trash" || opt.innerText === "Delete" || opt.innerText === "Remove reaction" || opt.innerText === "Unlike") {
           var ariaLabel = opt.innerText === "Move to trash" ? "Move to Trash" : "Delete";
           canDelete = true;
           opt.click();
