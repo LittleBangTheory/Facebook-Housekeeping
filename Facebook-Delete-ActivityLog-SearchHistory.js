@@ -6,6 +6,7 @@ function deleteFacebookActivityLog_SearchHistory(index = 0, currentAttempt = 0) 
     "Remove reaction",
     "Unlike",
     "Delete Your Activity",
+    "Move to bin",
   ]
 
   // Increment attempt count
@@ -33,7 +34,17 @@ function deleteFacebookActivityLog_SearchHistory(index = 0, currentAttempt = 0) 
           var opt = opts[i];
           // If the innerText is one of the values in the array, then we can deletefaczb
           if (innerTextValues.includes(opt.innerText)) {
-              var ariaLabel = opt.innerText === "Move to trash" ? "Move to Trash" : "Delete";
+              let ariaLabel;
+              // If innerText is "Move to trash", set ariaLabel to "Move to trash" (for history logs)
+              if (opt.innerText === "Move to trash") {
+                  ariaLabel = opt.innerText;
+              // If innerText is "Move to bin", then ariaLabel should be "Move to Recycle bin" (FB UI...) (for posts logs)
+              } else if (opt.innerText === "Move to bin") {
+                  ariaLabel = "Move to Recycle bin";
+              // Otherwise, set ariaLabel to "Delete" (default for all other logs)
+              } else {
+                  ariaLabel = "Delete";
+              }
               canDelete = true;
               opt.click();
               setTimeout(() => {
